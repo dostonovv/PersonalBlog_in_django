@@ -4,9 +4,6 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=1000&color=38BDF8&center=true&vCenter=true&width=600&lines=Welcome+to+my+Django+Blog!;Powered+by+Python+%F0%9F%90%8D;Launching+soon+on+Raspberry+Pi+%F0%9F%9A%80" alt="Typing animation" />
 </p>
 
-<p align="center">
-  <img src="https://media.giphy.com/media/qT3y84oB8pU0/giphy.gif" width="120" alt="Rocket animation">
-</p>
 
 ---
 
