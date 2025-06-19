@@ -1,9 +1,15 @@
-📁 README.md
+# 🧠 Zoirjon's Personal Blog – Django
 
-# 🧠 Zoirjon's Personal Blog in django 🚀
+This is my personal blog project built using Django — an independent space where I express my thoughts, experiences, and technical journey.  
+Unlike standard platforms like Telegram or Medium, this blog lives on my own infrastructure, and will soon be hosted on a Raspberry Pi home server.
 
-This is my personal blog project built using Django, designed to be an independent space where I express my thoughts, experiences, and technical journey.  
-Unlike standard platforms like Telegram or Medium, this blog lives on my own infrastructure, eventually to be hosted on a Raspberry Pi home server.
+---
+
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Django](https://img.shields.io/badge/Django-5.0-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+---
 
 ## 🧩 Features
 
@@ -11,9 +17,11 @@ Unlike standard platforms like Telegram or Medium, this blog lives on my own inf
 - 🔎 Search functionality
 - ✅ Reactions for each post (like Telegram emojis)
 - 🔐 Admin-only access (private dashboard)
-- 🎨 Clean, minimalistic frontend (with Tailwind in future updates)
-- 🔄 Soon to be open for comments (currently planned)
-- ⚙️ Will be integrated into personal server in future (self-hosted setup)
+- 🎨 Clean, minimalistic frontend (Tailwind CSS planned)
+- 💬 Comments system (coming soon)
+- ⚙️ Self-hosted setup on Raspberry Pi (planned)
+
+---
 
 ## 🔭 Vision
 
@@ -21,43 +29,41 @@ Unlike standard platforms like Telegram or Medium, this blog lives on my own inf
 > a mirror of my brain. One day, my children or grandchildren  
 > will be able to read it and feel like they’re speaking to me."
 
-My ultimate goal is to make this part of my digital legacy and contribute to open-source knowledge.  
+My ultimate goal is to make this part of my digital legacy and contribute to open-source knowledge.
+
+---
 
 ## 🚀 Tech Stack
 
-- Backend: Python, Django
-- Frontend: HTML/CSS (Tailwind CSS coming soon)
-- Database: SQLite (will upgrade to PostgreSQL)
-- Hosting: GitHub Pages (temporary) → Raspberry Pi (planned)
-- Future Tools: Arduino, Sensors, AIogram for automation bots
+- **Backend**: Python, Django
+- **Frontend**: HTML, CSS (Tailwind CSS planned)
+- **Database**: SQLite (PostgreSQL planned)
+- **Hosting**: GitHub Pages → Raspberry Pi (future)
+- **Future Integration**: Arduino, Sensors, AIOgram (bots, automation)
+
+---
 
 ## 🛠 Setup
 
-`bash
+```bash
 # Clone the repository
 git clone https://github.com/dostonovv/PersonalBlog_in_django.git
 
+# Navigate into project directory
+cd PersonalBlog_in_django
+
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # For Windows: venv\Scripts\activate
+# Activate (Windows)
+venv\Scripts\activate
+# or (Linux/macOS)
+source venv/bin/activate
 
-# Install requirements
+# Install dependencies
 pip install -r requirements.txt
 
-# Run the server
+# Apply migrations
 python manage.py migrate
+
+# Run the server
 python manage.py runserver
-
-Then open your browser and go to:
-http://127.0.0.1:8000/
-
-👤 Admin Panel
-
-Accessible at:
-http://127.0.0.1:8000/admin/
-(Create a superuser with: python manage.py createsuperuser)
-
-📜 License
-
-MIT © Zoirjon Dostonov
-See LICENSE for full details.
