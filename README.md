@@ -35,7 +35,7 @@ My ultimate goal is to make this part of my digital legacy and contribute to ope
 
 `bash
 # Clone the repository
-git clone https://github.com/ZoirjonDostonov/Personal-Blog-django-.git
+git clone https://github.com/dostonovv/PersonalBlog_in_django.git
 
 # Create virtual environment
 python -m venv venv
