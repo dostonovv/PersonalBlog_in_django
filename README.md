@@ -1,6 +1,6 @@
 📁 README.md
 
-# 🧠 Zoirjon's Personal Blog – Django
+# 🧠 Zoirjon's Personal Blog in django 🚀
 
 This is my personal blog project built using Django, designed to be an independent space where I express my thoughts, experiences, and technical journey.  
 Unlike standard platforms like Telegram or Medium, this blog lives on my own infrastructure, eventually to be hosted on a Raspberry Pi home server.
