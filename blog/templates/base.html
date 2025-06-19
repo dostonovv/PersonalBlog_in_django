@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfolio{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            padding-top: 50px;
+        }
+
+        /* NAVBAR STYLES */
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 45px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: visible;
+        }
+
+        /* PYTHON ICONS ANIMATION */
+        .nav-brand::before,
+        .nav-brand::after {
+            content: '🐍';
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: all 0.6s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .nav-brand::before {
+            top: -10px;
+            left: -15px;
+            transform: rotate(-15deg) scale(0.5);
+        }
+
+        .nav-brand::after {
+            bottom: -10px;
+            right: -15px;
+            transform: rotate(15deg) scale(0.5);
+        }
+
+        /* ADDITIONAL PYTHON ICONS */
+        .nav-brand {
+            --python1: '🐍';
+            --python2: '🐍';
+            --python3: '🐍';
+            --python4: '🐍';
+        }
+
+        .nav-brand:hover::before {
+            opacity: 0.6;
+            transform: rotate(-15deg) scale(1);
+            animation: pythonFloat1 2s ease-in-out infinite;
+        }
+
+        .nav-brand:hover::after {
+            opacity: 0.6;
+            transform: rotate(15deg) scale(1);
+            animation: pythonFloat2 2s ease-in-out infinite reverse;
+        }
+
+        /* EXTRA PYTHON ICONS ON HOVER */
+        .nav-brand:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(52, 168, 83, 0.3);
+            transform: scale(1.05);
+        }
+
+        .nav-brand:hover .brand-text {
+            color: #34a853;
+            text-shadow: 0 0 10px rgba(52, 168, 83, 0.5);
+        }
+
+        /* FLOATING ANIMATIONS */
+        @keyframes pythonFloat1 {
+            0%, 100% {
+                transform: rotate(-15deg) scale(1) translateY(0px);
+            }
+            50% {
+                transform: rotate(-10deg) scale(1.1) translateY(-5px);
+            }
+        }
+
+        @keyframes pythonFloat2 {
+            0%, 100% {
+                transform: rotate(15deg) scale(1) translateY(0px);
+            }
+            50% {
+                transform: rotate(20deg) scale(1.1) translateY(-3px);
+            }
+        }
+
+        /* MORE PYTHON ICONS AROUND */
+        .nav-brand:hover {
+            position: relative;
+        }
+
+        .nav-brand:hover::before {
+            content: '🐍 🐍 🐍';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            opacity: 0.4;
+            animation: pythonCircle 3s linear infinite;
+            white-space: nowrap;
+            letter-spacing: 10px;
+        }
+
+        @keyframes pythonCircle {
+            0% {
+                transform: translateX(-50%) rotate(0deg) translateY(-15px) rotate(0deg);
+            }
+            100% {
+                transform: translateX(-50%) rotate(360deg) translateY(-15px) rotate(-360deg);
+            }
+        }
+
+        /* MULTIPLE PYTHON ICONS EFFECT */
+        .nav-brand {
+            position: relative;
+            overflow: visible;
+        }
+
+        .nav-brand::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            background:
+                radial-gradient(circle at 20% 30%, transparent 8px, rgba(52, 168, 83, 0.1) 8px, rgba(52, 168, 83, 0.1) 12px, transparent 12px),
+                radial-gradient(circle at 80% 70%, transparent 8px, rgba(52, 168, 83, 0.1) 8px, rgba(52, 168, 83, 0.1) 12px, transparent 12px);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.5s ease;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .nav-brand:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            animation: pythonGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pythonGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(52, 168, 83, 0.3);
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(52, 168, 83, 0.6);
+            }
+        }
+
+        /* PYTHON ICONS ORBITING */
+        .nav-brand::after {
+            content: '🐍';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .nav-brand:hover::after {
+            opacity: 0.7;
+            animation: pythonOrbit 4s linear infinite;
+        }
+
+        @keyframes pythonOrbit {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg) translateX(30px) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg) translateX(30px) rotate(-360deg);
+            }
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 8px 16px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: transparent;
+            border: 1px solid transparent;
+        }
+
+        /* GRADIENT ANIMATION EFFECT */
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(79, 172, 254, 0.3) 25%,
+                rgba(0, 242, 254, 0.5) 50%,
+                rgba(79, 172, 254, 0.3) 75%,
+                transparent 100%
+            );
+            transition: right 0.6s ease;
+            z-index: -1;
+        }
+
+        .nav-link:hover::before {
+            right: -10%;
+            animation: gradientFlow 0.8s ease-in-out;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            border-color: rgba(79, 172, 254, 0.3);
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.2);
+        }
+
+        @keyframes gradientFlow {
+            0% {
+                right: -100%;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                right: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* SEARCH FORM STYLES */
+        .search-form {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(72, 198, 239, 0.2) 50%,
+                transparent 100%
+            );
+            transition: left 0.6s ease;
+            z-index: 0;
+        }
+
+        .search-form:focus-within {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(72, 198, 239, 0.5);
+            box-shadow: 0 0 20px rgba(72, 198, 239, 0.3);
+        }
+
+        .search-form:focus-within::before {
+            left: 100%;
+            animation: searchGlow 1s ease-in-out;
+        }
+
+        @keyframes searchGlow {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .search-input {
+            background: none;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            width: 200px;
+            outline: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-button {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .search-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0.2) 100%
+            );
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .search-button:hover::before {
+            left: 100%;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .main-content {
+            padding: 40px 20px;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 45px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 15px;
+                gap: 10px;
+            }
+
+            .nav-center {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .nav-menu {
+                gap: 8px;
+            }
+
+            .nav-link {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .search-input {
+                width: 150px;
+                padding: 6px 12px;
+            }
+
+            .search-button {
+                padding: 6px 12px;
+            }
+
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">💼</span>
+                <span class="brand-text">Blog</span>
+            </div>
+
+            <div class="nav-center">
+                <ul class="nav-menu">
+                    <li><a href="{% url 'home' %}" class="nav-link">🏠 Home</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">👤 About</a></li>
+                    <li><a href="{% url 'today_posts' %}" class="nav-link">📅 Today</a></li>
+                    <li><a href="{% url 'top_posts' %}" class="nav-link">🔥 Popular</a></li>
+                </ul>
+
+                <form class="search-form" method="GET" action="{% url 'search_results' %}">
+                    <input
+                        type="text"
+                        name="q"
+                        class="search-input"
+                        placeholder="Search posts..."
+                        value="{{ request.GET.q }}"
+                    >
+                    <button type="submit" class="search-button">
+                        🔍 Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

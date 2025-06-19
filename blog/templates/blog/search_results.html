@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results - Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.page-header {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    position: relative;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #48c6ef, #6f86d6);
+    border-radius: 20px 20px 0 0;
+}
+
+.page-title {
+    color: #ffffff;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.search-query {
+    color: #48c6ef;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(72, 198, 239, 0.3);
+}
+
+.results-count {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.result-item {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #48c6ef, #6f86d6);
+    border-radius: 16px 16px 0 0;
+}
+
+.result-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.result-title {
+    color: #ffffff;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.result-title a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.result-title a:hover {
+    color: #48c6ef;
+    text-shadow: 0 0 10px rgba(72, 198, 239, 0.5);
+}
+
+.result-excerpt {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.result-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.result-date {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.read-more {
+    background: linear-gradient(45deg, #48c6ef, #6f86d6);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.read-more:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(72, 198, 239, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+.no-results {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.no-results-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.no-results-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .result-item {
+        padding: 25px;
+    }
+    
+    .result-meta {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .no-results {
+        padding: 40px 25px;
+    }
+    
+    .no-results-icon {
+        font-size: 3rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="{% url 'home' %}" class="back-button">
+        ← Back to Home
+    </a>
+
+    <div class="page-header">
+        <h1 class="page-title">
+            <span>🔍</span>
+            Qidiruv Natijalari
+        </h1>
+        {% if request.GET.q %}
+            <p class="results-count">
+                "<span class="search-query">{{ request.GET.q }}</span>" uchun {{ results|length }} ta natija topildi
+            </p>
+        {% endif %}
+    </div>
+
+    {% if results %}
+        <div class="search-results">
+            {% for post in results %}
+                <article class="result-item">
+                    <h3 class="result-title">
+                        <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                    </h3>
+                    
+                    <p class="result-excerpt">{{ post.body1|truncatechars:200 }}</p>
+                    
+                    <div class="result-meta">
+                        <div class="result-date">
+                            <span>📅</span>
+                            {{ post.created_at|date:"M d, Y" }}
+                        </div>
+                        <a href="{% url 'post_detail' post.id %}" class="read-more">
+                            Read More
+                            <span>→</span>
+                        </a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-results">
+            <div class="no-results-icon">🔍</div>
+            <p class="no-results-text">Hech qanday mos post topilmadi</p>
+            <p class="no-results-subtitle">Boshqa kalit so'zlar bilan qidirib ko'ring</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

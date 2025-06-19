@@ -1,0 +1,387 @@
+{% extends 'base.html' %}
+
+{% block title %}Popular Posts - Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.page-header {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    position: relative;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b, #feca57);
+    border-radius: 20px 20px 0 0;
+}
+
+.page-title {
+    color: #ffffff;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.page-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.post-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.post-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b, #feca57);
+    border-radius: 16px 16px 0 0;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.post-rank {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.post-title {
+    color: #ffffff;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    padding-right: 50px;
+}
+
+.post-title a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.post-title a:hover {
+    color: #feca57;
+    text-shadow: 0 0 10px rgba(254, 202, 87, 0.5);
+}
+
+.post-excerpt {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.post-date {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.post-views {
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+}
+
+.read-more {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.read-more:hover {
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+.no-posts {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.no-posts-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.no-posts-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.no-posts-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: white;
+}
+
+.stats-bar {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #feca57;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .posts-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .post-card {
+        padding: 25px;
+    }
+    
+    .post-title {
+        padding-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .post-rank {
+        position: static;
+        margin-bottom: 15px;
+        align-self: flex-start;
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .stats-bar {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .no-posts {
+        padding: 40px 25px;
+    }
+    
+    .no-posts-icon {
+        font-size: 3rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="{% url 'home' %}" class="back-button">
+        ← Back to Home
+    </a>
+
+    <div class="page-header">
+        <h1 class="page-title">
+            <span>🔥</span>
+            Eng Ko'p Ko'rilgan Postlar
+        </h1>
+        <p class="page-subtitle">Most popular and trending content</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-number">{{ top_posts|length }}</span>
+            <span class="stat-label">Popular Posts</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">🏆</span>
+            <span class="stat-label">Top Rated</span>
+        </div>
+    </div>
+
+    {% if top_posts %}
+        <div class="posts-grid">
+            {% for post in top_posts %}
+                <article class="post-card">
+                    <div class="post-rank">{{ forloop.counter }}</div>
+                    
+                    <h3 class="post-title">
+                        <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                    </h3>
+                    
+                    <p class="post-excerpt">{{ post.body1|truncatechars:120 }}</p>
+                    
+                    <div class="post-meta">
+                        <div class="post-date">
+                            <span>📅</span>
+                            {{ post.created_at|date:"M d, Y" }}
+                        </div>
+                        <div class="post-views">
+                            <span>👁</span>
+                            {{ post.views }} views
+                        </div>
+                        <a href="{% url 'post_detail' post.pk %}" class="read-more">
+                            Read More
+                            <span>→</span>
+                        </a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-posts">
+            <div class="no-posts-icon">🏆</div>
+            <p class="no-posts-text">Hozircha mashhur postlar yo'q</p>
+            <p class="no-posts-subtitle">Yangi kontentlar tez orada qo'shiladi!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
